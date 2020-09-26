@@ -2163,6 +2163,10 @@ image_t *R_CreateImage2( const char *name, byte *pic, int width, int height, GLe
 
 	// Allocate texture storage so we don't have to worry about it later.
 	dataFormat = PixelDataFormatFromInternalFormat(internalFormat);
+
+	if (glRefConfig.glslMajorVersion == 0)
+		internalFormat = dataFormat;
+
 	mipWidth = width;
 	mipHeight = height;
 	miplevel = 0;

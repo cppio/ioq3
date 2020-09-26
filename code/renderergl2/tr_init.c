@@ -955,7 +955,7 @@ const void *RB_TakeVideoFrameCmd( const void *data )
 */
 void GL_SetDefaultState( void )
 {
-	qglClearDepth( 1.0f );
+	qglClearDepth ? qglClearDepth( 1.0f ) : qglClearDepthf( 1.0f );
 
 	qglCullFace(GL_FRONT);
 
@@ -987,7 +987,7 @@ void GL_SetDefaultState( void )
 	glState.currentVao = NULL;
 	glState.vertexAttribsEnabled = 0;
 
-	qglPolygonMode (GL_FRONT_AND_BACK, GL_FILL);
+	if (qglPolygonMode) qglPolygonMode (GL_FRONT_AND_BACK, GL_FILL);
 	qglDepthMask( GL_TRUE );
 	qglDisable( GL_DEPTH_TEST );
 	qglEnable( GL_SCISSOR_TEST );

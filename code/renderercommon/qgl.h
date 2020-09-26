@@ -80,7 +80,6 @@ extern void (APIENTRYP qglUnlockArraysEXT) (void);
 	GLE(void, TexParameterf, GLenum target, GLenum pname, GLfloat param) \
 	GLE(void, TexParameteri, GLenum target, GLenum pname, GLint param) \
 	GLE(void, TexSubImage2D, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid *pixels) \
-	GLE(void, Translatef, GLfloat x, GLfloat y, GLfloat z) \
 	GLE(void, Viewport, GLint x, GLint y, GLsizei width, GLsizei height) \
 
 // OpenGL 1.0/1.1 and OpenGL ES 1.x but not OpenGL 3.2 core profile
@@ -98,6 +97,7 @@ extern void (APIENTRYP qglUnlockArraysEXT) (void);
 	GLE(void, ShadeModel, GLenum mode) \
 	GLE(void, TexCoordPointer, GLint size, GLenum type, GLsizei stride, const GLvoid *ptr) \
 	GLE(void, TexEnvf, GLenum target, GLenum pname, GLfloat param) \
+	GLE(void, Translatef, GLfloat x, GLfloat y, GLfloat z) \
 	GLE(void, VertexPointer, GLint size, GLenum type, GLsizei stride, const GLvoid *ptr) \
 
 // OpenGL 1.0/1.1 and 3.2 core profile but not OpenGL ES 1.x
@@ -168,6 +168,7 @@ extern void (APIENTRYP qglUnlockArraysEXT) (void);
 	GLE(void, DeleteShader, GLuint shader) \
 	GLE(void, DetachShader, GLuint program, GLuint shader) \
 	GLE(void, DisableVertexAttribArray, GLuint index) \
+	GLE(void, DrawBuffers, GLsizei n, const GLenum *bufs) \
 	GLE(void, EnableVertexAttribArray, GLuint index) \
 	GLE(void, GetActiveUniform, GLuint program, GLuint index, GLsizei bufSize, GLsizei *length, GLint *size, GLenum *type, GLchar *name) \
 	GLE(void, GetProgramiv, GLuint program, GLenum pname, GLint *params) \

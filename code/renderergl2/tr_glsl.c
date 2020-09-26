@@ -239,12 +239,17 @@ static void GLSL_GetShaderHeader( GLenum shaderType, const GLchar *extra, char *
 	float fbufWidthScale, fbufHeightScale;
 
 	dest[0] = '\0';
-
-	// HACK: abuse the GLSL preprocessor to turn GLSL 1.20 shaders into 1.30 ones
-	if(glRefConfig.glslMajorVersion > 1 || (glRefConfig.glslMajorVersion == 1 && glRefConfig.glslMinorVersion >= 30))
+	if(glRefConfig.glslMajorVersion > 1 || (glRefConfig.glslMajorVersion == 1 && glRefConfig.glslMinorVersion >= 30) || glRefConfig.glslMajorVersion == 0)
 	{
 		if (glRefConfig.glslMajorVersion > 1 || (glRefConfig.glslMajorVersion == 1 && glRefConfig.glslMinorVersion >= 50))
 			Q_strcat(dest, size, "#version 150\n");
+		else if (glRefConfig.glslMajorVersion == 0)
+		{
+			Q_strcat(dest, size, "#version 300 es\n");
+
+			Q_strcat(dest, size, "precision mediump float;\n");
+			Q_strcat(dest, size, "precision mediump sampler2DShadow;\n");
+		}
 		else
 			Q_strcat(dest, size, "#version 130\n");
 

@@ -236,7 +236,7 @@ void GL_State( unsigned long stateBits )
 	//
 	// fill/line mode
 	//
-	if ( diff & GLS_POLYMODE_LINE )
+	if ( diff & GLS_POLYMODE_LINE && qglPolygonMode )
 	{
 		if ( stateBits & GLS_POLYMODE_LINE )
 		{
@@ -562,7 +562,7 @@ void RB_RenderDrawSurfList( drawSurf_t *drawSurfs, int numDrawSurfs ) {
 					}
 
 					if(!oldDepthRange)
-						qglDepthRange (0, 0.3);
+						qglDepthRange ? qglDepthRange (0, 0.3) : qglDepthRangef (0, 0.3);
 				}
 				else
 				{
@@ -571,7 +571,7 @@ void RB_RenderDrawSurfList( drawSurf_t *drawSurfs, int numDrawSurfs ) {
 						GL_SetProjectionMatrix( backEnd.viewParms.projectionMatrix );
 					}
 
-					qglDepthRange (0, 1);
+					qglDepthRange ? qglDepthRange (0, 1) : qglDepthRangef (0, 1);
 				}
 
 				oldDepthRange = depthRange;
@@ -599,7 +599,7 @@ void RB_RenderDrawSurfList( drawSurf_t *drawSurfs, int numDrawSurfs ) {
 
 	GL_SetModelviewMatrix( backEnd.viewParms.world.modelMatrix );
 
-	qglDepthRange (0, 1);
+	qglDepthRange ? qglDepthRange (0, 1) : qglDepthRangef (0, 1);
 }
 
 
@@ -749,7 +749,7 @@ void RE_UploadCinematic (int w, int h, int cols, int rows, const byte *data, int
 	if ( cols != tr.scratchImage[client]->width || rows != tr.scratchImage[client]->height ) {
 		tr.scratchImage[client]->width = tr.scratchImage[client]->uploadWidth = cols;
 		tr.scratchImage[client]->height = tr.scratchImage[client]->uploadHeight = rows;
-		qglTextureImage2DEXT(texture, GL_TEXTURE_2D, 0, GL_RGB8, cols, rows, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		qglTextureImage2DEXT(texture, GL_TEXTURE_2D, 0, GL_RGBA8, cols, rows, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 		qglTextureParameterfEXT(texture, GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		qglTextureParameterfEXT(texture, GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
 		qglTextureParameterfEXT(texture, GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -1195,7 +1195,7 @@ const void	*RB_DrawBuffer( const void *data ) {
 	if (glRefConfig.framebufferObject)
 		FBO_Bind(NULL);
 
-	qglDrawBuffer( cmd->buffer );
+	qglDrawBuffer ? qglDrawBuffer( cmd->buffer ) : qglDrawBuffers( 1, (GLenum[]) { cmd->buffer } );
 
 	// clear screen for debugging
 	if ( r_clear->integer ) {
